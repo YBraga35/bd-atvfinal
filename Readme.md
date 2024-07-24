@@ -48,9 +48,9 @@ Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para ma
 
 ## 📞 Contato
 
-[Eduardo] - [@EiflerStorm](mailto:eduardoeiflerf@gmail.com)  
-[Khalil] - [@username2](mailto:email2@dominio.com)  
-[Yaçanã] - [@username3](mailto:email3@dominio.com)  
-[Yan] - [@YBraga35](mailto:Yan.silva@ufcspa.edu.br)
+[Eduardo] - [@EiflerStorm](https://github.com/EiflerStorm)  
+[Khalil] - [@KhalilFalanah](https://github.com/KhalilFalanah)  
+[Yaçanã] - [@yahlopes](https://github.com/yahlopes)  
+[Yan] - [@YBraga35](https://github.com/YBraga35/)
 
 Link do projeto: https://github.com/YBraga35/BD---Atividade-Final
