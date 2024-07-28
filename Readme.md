@@ -5,6 +5,11 @@
 
 Este projeto tem como objetivo criar um banco de dados para a área biomédica, implementando um modelo de dados relacional e realizando consultas SQL para análise de dados.
 
+# Arquivos importantes:
+  - Relatório escrito em pdf: https://raw.githubusercontent.com/YBraga35/bd-atvfinal/main/Justificativa%20do%20banco%20de%20dados.pdf
+  - Relatório escrito em markdown: https://raw.githubusercontent.com/YBraga35/bd-atvfinal/main/justificativa.md
+  - Script SQL do projeto: https://raw.githubusercontent.com/YBraga35/bd-atvfinal/main/proj_trab.sql
+
 
 ## 📋 Índice
 
