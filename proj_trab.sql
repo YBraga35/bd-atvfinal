@@ -1,3 +1,12 @@
+/*
+INTEGRANTES:
+    - Eduardo Pitombo Eifler Filho
+    - Khalil Ali Yacoub Belmonte Falanah
+    - Yaçanã Isis Lopes Jorge Silveira
+    - Yan Braga da Silva
+
+*/
+
 
 DROP SCHEMA IF EXISTS BancoFisio;
 CREATE SCHEMA BancoFisio;
