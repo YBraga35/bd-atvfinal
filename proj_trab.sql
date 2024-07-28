@@ -1,6 +1,4 @@
 
-
-
 DROP SCHEMA IF EXISTS BancoFisio;
 CREATE SCHEMA BancoFisio;
 USE BancoFisio;
@@ -16,7 +14,7 @@ idEndereco integer primary key auto_increment,
 logradouro varchar (70),
 num integer,
 complemento varchar(15),
-cep integer
+cep varchar(9)
 );
 
 create table Contato (
@@ -55,7 +53,7 @@ lado varchar (20)
 );
 
 CREATE TABLE Paciente(
-cpf integer primary key,
+cpf varchar(11) primary key,
 pnome varchar (20),
 unome varchar (50),
 idEndereco integer,
@@ -79,7 +77,7 @@ CONSTRAINT fk_acometido_pac FOREIGN KEY(idAcometido) REFERENCES Acometido(idAcom
 
 CREATE TABLE atendimento(
 dataAtendimento date,
-cpfPac integer,
+cpfPac varchar(11),
 idProfissional integer,
 CONSTRAINT PK_atendimento PRIMARY KEY(dataAtendimento, cpfPac),
 CONSTRAINT fk_pac_cpf FOREIGN KEY(cpfPac) REFERENCES Paciente(cpf),
@@ -182,11 +180,11 @@ INSERT INTO Paciente (cpf, pnome, unome, idEndereco, idContato, idade, sexo, idE
 (23456789012, 'Pedro', 'Santos', 3, 3, 40, 'M', 3, 3, 3, 'Arquiteto', 2, 1),
 (34567890123, 'Juliana', 'Costa', 4, 4, 28, 'F', 1, 1, 4, 'Dentista', 1, 3),
 (45678901234, 'Marcos', 'Pereira', 5, 5, 35, 'M', 2, 4, 5, 'Médico', 3, 2),
-(56789012345, 'Lucia', 'Lima', 6, 6, 32, 'F', 2, 5, 1, 'Psicóloga', 2, 1),
+(56789012345, 'Lucia', 'Lima', 6, 6, 83, 'F', 2, 5, 1, 'Aposentado', 2, 1),
 (67890123456, 'Roberto', 'Almeida', 7, 7, 45, 'M', 1, 2, 2, 'Advogado', 1, 2),
-(78901234567, 'Sofia', 'Fernandes', 8, 8, 29, 'F', 4, 3, 3, 'Engenheira', 3, 1),
+(78901234567, 'Sofia', 'Fernandes', 8, 8, 75, 'F', 4, 3, 3, 'Aponsentado', 3, 1),
 (89012345678, 'Eduardo', 'Ribeiro', 9, 9, 38, 'M', 3, 4, 4, 'Professor', 2, 2),
-(90123456789, 'Mariana', 'Souza', 10, 10, 27, 'F', 1, 2, 5, 'Arquiteta', 1, 3),
+(90123456789, 'Mariana', 'Souza', 10, 10, 56, 'F', 1, 2, 5, 'Arquiteta', 1, 3),
 (12345678001, 'Lucas', 'Mendes', 1, 2, 31, 'M', 3, 4, 2, 'Mecânico', 1, NULL),
 (23456789001, 'Beatriz', 'Martins', 2, 3, 26, 'F', 4, 1, 1, 'Farmacêutica', 2, NULL),
 (34567890001, 'Roberta', 'Gomes', 3, 4, 33, 'F', 2, 2, 2, 'Enfermeira', 3, 1),
@@ -197,29 +195,29 @@ INSERT INTO Paciente (cpf, pnome, unome, idEndereco, idContato, idade, sexo, idE
 # atendimento
 INSERT INTO Atendimento (dataAtendimento, cpfPac, idProfissional) VALUES
 -- 5 atendimentos no mesmo dia
-('2024-07-20', 12345678900, 1),
-('2024-07-20', 12345678900, 1),
-('2024-07-20', 12345678900, 1),
-('2024-07-20', 12345678900, 1),
-('2024-07-20', 12345678900, 1),
+('2024-07-20', 12345678900, 153),
+('2024-07-20', 45678901234, 153),
+('2024-07-20', 23456789001, 153),
+('2024-07-20', 89012345678, 153),
+('2024-07-20', 90123456789, 153),
 -- 3 atendimentos em 2 dias diferentes
-('2024-07-21', 98765432100, 2),
-('2024-07-22', 23456789012, 3),
-('2024-07-22', 34567890123, 4),
+('2024-07-21', 98765432100, 108),
+('2024-07-22', 23456789012, 682),
+('2024-07-22', 34567890123, 791),
 -- Dados adicionais variados
-('2024-07-23', 45678901234, 5),
-('2024-07-24', 56789012345, 6),
-('2024-07-25', 67890123456, 7),
-('2024-07-26', 78901234567, 8),
-('2024-07-27', 89012345678, 9),
-('2024-07-28', 90123456789, 10);
+('2024-07-23', 45678901234, 863),
+('2024-07-24', 56789012345, 542),
+('2024-07-25', 67890123456, 321),
+('2024-07-26', 78901234567, 542),
+('2024-07-26', 89012345678, 456),
+('2024-07-28', 90123456789, 542);
 
 
 
-/*
-- - - Sugestões de Consultas SQL - - -
+
+-- - Sugestões de Consultas SQL - - -
 # Consulta com junção interna
--- Listar todos os atendimentos com detalhes dos pacientes e profissionais
+-- Listar todos os atendimentos com nomes dos pacientes e profissionais
 SELECT a.dataAtendimento, p.pnome, p.unome, pr.nome AS nome_profissional
 FROM Atendimento a
 INNER JOIN Paciente p ON a.cpfPac = p.cpf
@@ -232,7 +230,7 @@ INNER JOIN Profissional pr ON a.idProfissional = pr.idProfissional;
 -- Listar todos os pacientes e seus atendimentos, mesmo aqueles que não tiveram atendimentos registrados
 SELECT p.pnome, p.unome, a.dataAtendimento
 FROM Paciente p
-LEFT JOIN Atendimento a ON p.cpf = a.cpfPac;
+LEFT OUTER JOIN Atendimento a ON p.cpf = a.cpfPac;
 
 -- Objetivo: Exibir pacientes mesmo que não tenham atendimentos, útil para verificar pacientes que ainda não foram atendidos.
 
@@ -252,17 +250,16 @@ WHERE idProfissional IN (
 
 
 # Consulta com função agregada e agrupamento
--- Contar o número de atendimentos por dia
+-- Contar o número de atendimentos por dia 
 SELECT dataAtendimento, COUNT(*) AS total_atendimentos
 FROM Atendimento
-GROUP BY dataAtendimento
-HAVING COUNT(*) > 1;
+GROUP BY dataAtendimento;
 
--- Objetivo: Verificar dias com mais de um atendimento, útil para identificar dias mais movimentados.
+-- Objetivo: Verificar quantidade de atendimentos por dia, útil para identificar dias mais movimentados.
 
 
-# Consulta com junção e função agregada
--- Contar o número de atendimentos por profissional e listar o nome do profissional
+# Consulta com função agregada, agrupamento e cláusula having
+-- Listar nome do profissional e contar o número de atendimentos para saber quantos profissionais realizaram atendimentos além do limite estipulado de 2
 SELECT pr.nome, COUNT(a.idProfissional) AS total_atendimentos
 FROM Atendimento a
 INNER JOIN Profissional pr ON a.idProfissional = pr.idProfissional
@@ -271,6 +268,13 @@ HAVING COUNT(a.idProfissional) > 2;
 
 -- Objetivo: Identificar profissionais com mais de dois atendimentos, útil para análise da distribuição de trabalho entre profissionais.
 
-*/
+# Consulta com função agregada, agrupamento e cláusula having
+-- Mostrar media da idade dos pacientes atendidos por cada profissional
+SELECT prof.nome, AVG(pac.idade)
+FROM  Atendimento A
+INNER JOIN Paciente Pac ON A.cpfPac = Pac.cpf
+INNER JOIN  Profissional Prof ON A.idProfissional = Prof.idProfissional
+GROUP BY Prof.nome
+HAVING AVG(pac.idade) > 65;
 
-
+-- Objetivo: Saber a média de idade dos pacientes de cada profissional para poder personalizar o atendimento e a comunicação de acordo com as características e necessidades específicas daquela faixa etária.
